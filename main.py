@@ -15,7 +15,8 @@ class Colors:
 class FetcherThread(Thread):
 
     # Class attribute.
-    counter = {key: 0 for key in "abcdefghijklmnopqrstuvwxyz"}
+    # counter = {key: 0 for key in "abcdefghijklmnopqrstuvwxyz"}
+    counter = {}
     global_counter = {"counter": 0, "all": 0}
     # Control concurrent access to shared class attribute.
     # https://docs.python.org/3/library/threading.html?highlight=lock#threading.Lock
@@ -37,7 +38,8 @@ class FetcherThread(Thread):
                 if letter in self.counter:
                     self.counter[letter] += 1
                     self.global_counter['counter'] += 1
-
+                elif letter != " ":
+                    self.counter[letter] = 1
         print('{0}Execution of Thread: {1} is complete!{2}'.format(
             Colors.GREEN, self.name, Colors.RESET))
 
@@ -83,12 +85,9 @@ if __name__ == '__main__':
     labels = []
     sizes = []
 
-    for x, y in FetcherThread.counter.items():
-        labels.append(x)
-        sizes.append(y)
-
+    data = FetcherThread.counter
+    total = FetcherThread.global_counter['counter']
     # Plot
-    plt.pie(sizes,labels=labels, startangle=90, autopct='%1.2f%%', pctdistance=1.1, labeldistance=1.2)
-
-    plt.axis('equal')
+    names, counts = zip(*data.items())
+    plt.bar(names, [count/total for count in counts])
     plt.show()
