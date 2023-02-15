@@ -89,5 +89,8 @@ if __name__ == '__main__':
     total = FetcherThread.global_counter['counter']
     # Plot
     names, counts = zip(*data.items())
+    plt.title('Letter counting')
+    plt.ylabel('Percentages')
+    plt.xlabel('Characters')
     plt.bar(names, [count/total for count in counts])
     plt.show()
