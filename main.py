@@ -88,7 +88,8 @@ if __name__ == '__main__':
     data = FetcherThread.counter
     total = FetcherThread.global_counter['counter']
     # Plot
-    names, counts = zip(*data.items())
+    df = {k: v for k, v in sorted(data.items(), key=lambda item: item[0])}
+    names, counts = zip(*df.items())
     plt.title('Letter counting')
     plt.ylabel('Percentages')
     plt.xlabel('Characters')
